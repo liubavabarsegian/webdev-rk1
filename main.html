@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rk1 Люба Барсегян ИУ6-35Б</title>
+    <style>
+		* {
+			font-size: 30px;
+			background-color: rgb(225, 205, 243);
+		}
+		div {
+			margin: 20px 0px;
+		}
+		input {
+			background-color: aliceblue;
+		}
+		button {
+			margin: 20px 0px;
+			height: 50px;
+			background-color: aliceblue;
+		}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>РК № 1</h1>
+        <p>Барсегян Люба, ИУ6-35Б, Билет № 11.</p>
+        <p>Задание: Дан массив чисел arr_r. 
+            Определить сумму нечетных чисел массива и поместить ее вместо 
+            элемента массива, индекс которого делится на 3 без остатка</p>
+		<p>Замечание: индексация с нуля</p>
+    </header>
+    <main>
+        
+        <form>
+            <div class = 'name'>
+                <label>Введите элементы массива через пробел</label>
+                <input type = "text" id = "input-array" placeholder="0 1 2">
+            </div>
+            <button type = "button" id = "btn-1" onclick = "addElements()">Добавить массив и выполнить изменения</button>
+			<!-- <button type = "button" id = "btn-2" onclick = "Sum()"></button> -->
+            <div class = "output">
+                <label>Вывод массива</label>
+				<div id = "output"></div>
+            </div>
+            <div class = "array-modified">
+                <label>Вывод измененного массива</label>
+                <div id = "array-modified"></div>
+            </div>
+        </form>
+    </main>
+    <script>
+        let array = [];
+		let sum = 0;
+        firstTryInput = true;
+        firstTryOutput = true;
+		modified = false;
+		output = document.getElementById("output");
+		modifiedArray = document.getElementById("array-modified");
+		input = document.getElementById("input-array");
+
+        function addElements() {
+            
+            array = input.value.split(" ");
+            for(elem of array) {
+                if (!Number(elem) || elem == "") {
+					if (elem == "") {
+						alert(`Empty Input Error or Spaces Identified`);
+					} else {
+						alert(`${elem} is a wrong type of input`);
+					}
+					output.textContent = "";
+					input.value = "";
+					modifiedArray.textContent = "";
+					return;
+                } 
+            }
+
+            if (firstTryInput) {
+
+                for (elem of array) {
+                    output.textContent += Number(elem);
+                    output.textContent += " ";
+                    firstTryInput = false;
+                
+                }
+            } else {
+                output.textContent = "";
+				modifiedArray.textContent = "";
+                for (elem of array) {
+                    output.textContent += Number(elem);
+                    output.textContent += " ";
+                }
+            }
+            input.value = "";
+            outputModifiedArray();
+        }
+		
+        function findSum() {
+            var sumOdd = 0;
+            for (elem of array) {
+                if (Number(elem) % 2 != 0) {
+                    sumOdd += Number(elem);
+                }
+            }
+            return sumOdd;
+        }
+
+        function changeArray() {
+            for (var i = array.length - 1; i > 0; i--) {
+                if (i % 3 == 0 || i == 1)  {
+                    array[i - 1] = findSum();
+					modified = true;
+                    break;
+                }
+            }
+        }
+
+        function outputModifiedArray() {
+            changeArray();
+			if (!modified) {
+				modifiedArray.textContent += "Массив не модифицировался.";
+				return
+			}
+            if (firstTryOutput) {
+                for (elem of array) {
+                    modifiedArray.textContent += Number(elem);
+                    modifiedArray.textContent += " ";
+                    firstTryOutput = false;
+
+                }
+                } else {
+                modifiedArray.textContent = "";
+                for (elem of array) {
+                    modifiedArray.textContent += Number(elem);
+                    modifiedArray.textContent += " ";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
